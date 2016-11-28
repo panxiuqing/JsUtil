@@ -12,6 +12,20 @@ function n2m(list: Array<any>, m) {
     return r;
 }
 
+// function as Promise.all
+function all(functionList: Array<Function>, callback: Function) {
+    const params = [];
+    let counter = functionList.length;
+    functionList.forEach((f, i) => {
+        f((result) => {
+            params[i] = result;
+            if (!--counter) {
+                callback(params);
+            }
+        });
+    });
+}
+
 const test = [1,2,3,4,5,6,7,8,9,10,11,12,13,14];
 for (let i = 1; i < test.length; i ++) {
     console.log(n2m(test, i));
