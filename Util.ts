@@ -26,6 +26,25 @@ function all(functionList: Array<Function>, callback: Function) {
     });
 }
 
+function retryer(func, success, times, timer) {
+    times = times || 5;
+    timer = timer || 1000;
+    (function r() {
+        func((result) => {
+            if (result) {
+                success(result);
+            } else {
+                if (!--times) {
+                    return;
+                }
+                setTimeout(_ => {
+                    r();
+                }, timer);
+            }
+        })
+    })();
+}
+
 const test = [1,2,3,4,5,6,7,8,9,10,11,12,13,14];
 for (let i = 1; i < test.length; i ++) {
     console.log(n2m(test, i));
